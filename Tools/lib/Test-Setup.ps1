@@ -1,4 +1,4 @@
-param(
+﻿param(
     [string]$ConfigPath,
     [switch]$Quiet
 )
@@ -47,6 +47,7 @@ $checks = @(
     [PSCustomObject]@{ Area = "Runtime"; Name = "Mod scripts"; RequiredFor = "Install"; Path = (Join-Path $cfg.ModSource "Scripts"); Ok = (Test-PathSafe (Join-Path $cfg.ModSource "Scripts")) },
     [PSCustomObject]@{ Area = "Build"; Name = "Unreal RunUAT"; RequiredFor = "Build"; Path = $runUat; Ok = (Test-PathSafe $runUat) },
     [PSCustomObject]@{ Area = "Build"; Name = "UnrealEditor-Cmd"; RequiredFor = "Build"; Path = $ueCmd; Ok = (Test-PathSafe $ueCmd) },
+    [PSCustomObject]@{ Area = "Build"; Name = "Compiled kit module"; RequiredFor = "Build"; Path = (Join-Path $cfg.ModderKit "Binaries\Win64\UnrealEditor-Dominion.dll"); Ok = (Test-PathSafe (Join-Path $cfg.ModderKit "Binaries\Win64\UnrealEditor-Dominion.dll")) },
     [PSCustomObject]@{ Area = "Build"; Name = "Project file"; RequiredFor = "Build"; Path = $cfg.ProjectFile; Ok = (Test-PathSafe $cfg.ProjectFile) },
     [PSCustomObject]@{ Area = "Build"; Name = "retoc"; RequiredFor = "Build"; Path = $cfg.Retoc; Ok = (Test-PathSafe $cfg.Retoc) }
 )

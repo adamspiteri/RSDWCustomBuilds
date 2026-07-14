@@ -6,6 +6,9 @@ your own mesh, textures, icon and build cost. One folder per piece, one build.
 
 - **Download:** grab the packaged zip from [Releases](../../releases) — you do not
   need to clone this repo unless you want to work on the kit itself.
+- **Important:** the release zip includes prebuilt editor module binaries
+  (`Binaries/Win64/`). A raw clone of this repo does NOT — building from a clone
+  requires Visual Studio 2022 with C++ to compile `Source/Dominion` once.
 - Also published on Nexus Mods.
 
 ## What makes it "native"
