@@ -1,0 +1,35 @@
+﻿{
+    "generated":  "2026-07-14T21:20:48.5816569Z",
+    "pak":  "RSDragonwilds-Z_RSDWCustomBuilds_P",
+    "version":  1,
+    "pieces":  [
+                   {
+                       "da_path":  "/Game/Gameplay/BaseBuilding_New/BuildingPieces/RSDWBuilds/ChurchWall/DA_ChurchWall.DA_ChurchWall",
+                       "bp_path":  "/Game/RSDWBuilds/ChurchWall/BP_ChurchWall.BP_ChurchWall_C",
+                       "id":  "ChurchWall",
+                       "menu_category":  "walls",
+                       "display_name":  "Church Brick Wall",
+                       "cost_wood":  0,
+                       "catalogue_index":  755,
+                       "donor":  "wall_large",
+                       "icon_path":  "/Game/RSDWBuilds/ChurchWall/T_Icon_ChurchWall.T_Icon_ChurchWall",
+                       "pak_first":  true,
+                       "persistence_id":  "RSDWBuilds_ChurchWall_v1",
+                       "mesh_path":  "/Game/RSDWBuilds/ChurchWall/SM_ChurchWall.SM_ChurchWall"
+                   },
+                   {
+                       "da_path":  "/Game/Gameplay/BaseBuilding_New/BuildingPieces/RSDWBuilds/SpikeWall/DA_SpikeWall.DA_SpikeWall",
+                       "bp_path":  "/Game/RSDWBuilds/SpikeWall/BP_SpikeWall.BP_SpikeWall_C",
+                       "id":  "SpikeWall",
+                       "menu_category":  "walls",
+                       "display_name":  "Spike Wall",
+                       "cost_wood":  0,
+                       "catalogue_index":  756,
+                       "donor":  "wall_large",
+                       "icon_path":  "/Game/RSDWBuilds/SpikeWall/T_Icon_SpikeWall.T_Icon_SpikeWall",
+                       "pak_first":  true,
+                       "persistence_id":  "RSDWBuilds_SpikeWall_v1",
+                       "mesh_path":  "/Game/RSDWBuilds/SpikeWall/SM_SpikeWall.SM_SpikeWall"
+                   }
+               ]
+}
