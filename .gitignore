@@ -1,5 +1,11 @@
-# UE project build artifacts
-Binaries/
+# UE project build artifacts (compiled module binaries in Binaries/Win64 ARE
+# committed on purpose: the GitHub release zip must work without Visual Studio)
+Binaries/**
+!Binaries/Win64/
+!Binaries/Win64/UnrealEditor-Dominion.dll
+!Binaries/Win64/UnrealEditor-RSDWCustomBuilds.dll
+!Binaries/Win64/UnrealEditor.modules
+!Binaries/Win64/RSDWCustomBuildsEditor.target
 Intermediate/
 Saved/
 DerivedDataCache/

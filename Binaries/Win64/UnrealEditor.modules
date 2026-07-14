@@ -1,0 +1,8 @@
+{
+	"BuildId": "43139311",
+	"Modules": 
+	{
+		"Dominion": "UnrealEditor-Dominion.dll",
+		"RSDWCustomBuilds": "UnrealEditor-RSDWCustomBuilds.dll"
+	}
+}
