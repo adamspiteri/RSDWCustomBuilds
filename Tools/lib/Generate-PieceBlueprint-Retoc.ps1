@@ -1,4 +1,4 @@
-# UAssetGUI-free donor-BP clone: retoc extract the donor Blueprint from the GAME paks,
+﻿# UAssetGUI-free donor-BP clone: retoc extract the donor Blueprint from the GAME paks,
 # then binary-clone it (clone_legacy_bp.py) with the identity + mesh renamed to the piece.
 # The clone lands in PakRaw\RSDWBuilds\<Id>\BP_<Id>.uasset(+uexp); Pack-IoStore stages it
 # in place of the small cooked editor BP (which lacks donor snap/collider/stability config
@@ -59,7 +59,7 @@ $outUexp = Join-Path $outDir "BP_$PieceName.uexp"
 $py = Join-Path $cfg.ToolsDir "clone_legacy_bp.py"
 Push-Location $cfg.ToolsDir
 try {
-    $lines = & python $py $donorUasset $donorUexp $outUasset $outUexp `
+    $lines = & $cfg.PythonExe $py $donorUasset $donorUexp $outUasset $outUexp `
         $donorPkg $donor.Name $newPkg "BP_$PieceName" `
         "auto" "auto" $newMeshPkg "SM_$PieceName" 2>&1
     $lines | ForEach-Object { Write-Host "  $_" }

@@ -1,4 +1,4 @@
-# GPL-free catalogue patch: retoc extract + binary patch (no UAssetGUI).
+﻿# GPL-free catalogue patch: retoc extract + binary patch (no UAssetGUI).
 # Falls back to Generate-Catalogue012.ps1 until patch_legacy_catalogue.py passes validation.
 param(
     [string]$ConfigPath,
@@ -91,7 +91,7 @@ foreach ($piece in $targets) {
     $pieceAsset = "DA_$($piece.Id)"
     $piecePkg = "/Game/Gameplay/BaseBuilding_New/BuildingPieces/$($cfg.CookFolder)/$($piece.Id)/$pieceAsset"
     Write-Host "[cat-retoc] Patching $pieceAsset ($($piece.PersistenceId))..."
-    $lines = & python $PyPatch $curU $curE $nextU $nextE $piecePkg $pieceAsset $label $piece.PersistenceId 2>&1
+    $lines = & $cfg.PythonExe $PyPatch $curU $curE $nextU $nextE $piecePkg $pieceAsset $label $piece.PersistenceId 2>&1
     $lines | ForEach-Object { Write-Host $_ }
     if ($LASTEXITCODE -ne 0) { throw "[cat-retoc] patch_legacy_catalogue.py failed for $($piece.Id)" }
     $curU = $nextU
@@ -105,7 +105,7 @@ foreach ($piece in $targets) {
 
 Write-Host "[cat-retoc] Validating patched catalogue..."
 $persistIds = @($targets | ForEach-Object { [string]$_.PersistenceId })
-& python $validator $curU $curE $targets.Count @persistIds
+& $cfg.PythonExe $validator $curU $curE $targets.Count @persistIds
 if ($LASTEXITCODE -ne 0) {
     if ($cfg.BuildBackend -eq "ue") {
         throw "[cat-retoc] Legacy patch validation failed (UE backend has no UAssetGUI fallback)"

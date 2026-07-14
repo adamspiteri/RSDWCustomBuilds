@@ -1,4 +1,4 @@
-param(
+﻿param(
     [string]$ConfigPath
 )
 
@@ -108,6 +108,11 @@ if ($pakRawRoots.Count -eq 0) {
     GameRoot        = $gameRoot
     BuildsFolder    = $buildsFolder
     UERoot          = Get-ConfigValue $ini "paths" "ue_root"
+    PythonExe       = $(
+        $ueRootVal = Get-ConfigValue $ini "paths" "ue_root"
+        $uePy = if ($ueRootVal) { Join-Path $ueRootVal "Engine\Binaries\ThirdParty\Python3\Win64\python.exe" } else { $null }
+        if ($uePy -and (Test-Path -LiteralPath $uePy)) { $uePy } else { "python" }
+    )
     Retoc           = Get-ConfigValue $ini "paths" "retoc"
     PakBasename     = Get-ConfigValue $ini "deploy" "pak_basename" "RSDragonwilds-Z_RSDWCustomBuilds_P"
     GamePaksDir     = $gamePaksDir

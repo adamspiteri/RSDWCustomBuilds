@@ -1,60 +1,101 @@
-# RSDW Custom Builds — Modder Kit
+# RSDW Custom Builds
 
-Add **native custom building pieces** to RuneScape: Dragonwilds. Pieces appear in
-the **vanilla build menu**, place/snap/save/load through real game code, and use
-your own mesh, textures, icon and build cost. One folder per piece, one build.
+**Persistent custom building pieces for RuneScape: Dragonwilds** — no Lua coding required for modders.
 
-- **Download:** grab the packaged zip from [Releases](../../releases) — you do not
-  need to clone this repo unless you want to work on the kit itself.
-- **Important:** the release zip includes prebuilt editor module binaries
-  (`Binaries/Win64/`). A raw clone of this repo does NOT — building from a clone
-  requires Visual Studio 2022 with C++ to compile `Source/Dominion` once.
-- Also published on Nexus Mods.
+Ship a mesh + textures from Unreal Engine → run one build script → get a pak + in-game build menu entry.
 
-## What makes it "native"
+For Nexus users, `Tools\Manager.bat` also supports raw `piece.json` folders and prebuilt pack installs.
 
-The kit ships a premade `AssetRegistry.bin` that the engine merges at boot, so the
-**game's own AssetManager registers your pieces** exactly like official content:
+---
 
-- pieces load, place, snap and persist through pure game code;
-- they keep working even if UE4SS breaks after a game update;
-- no vanilla files are overridden and no GPL tooling is involved anywhere
-  (piece data, blueprints and the catalogue are all generated with Unreal
-  itself plus a small pure-Python patcher).
+## Two packages (Nexus)
 
-A small UE4SS Lua mod handles menu unlocking and a **piece journal** that
-automatically restores placed pieces if the mod is removed and later reinstalled.
+| Download | Who | Contains |
+|----------|-----|----------|
+| **RSDW Custom Builds — Modder Kit** | Creators | UE project, `Tools/` (with pre-built Manager GUI), docs |
+| **RSDW Custom Builds — Runtime** | Players | `Mod/` + `.pak` only (no UE needed) |
 
-## Quick start (piece creators)
+Players need **UE4SS** and the base **RSDW Custom Builds** runtime mod. Modders additionally need **UE 5.6**, **retoc**, and **UAssetGUI** (for piece data generation).
 
-1. Requirements: RS: Dragonwilds (Steam), **Unreal Engine 5.6**,
-   [retoc](https://github.com/trumank/retoc),
-   [UE4SS](https://github.com/UE4SS-RE/RE-UE4SS), .NET 8 Desktop Runtime.
-2. Extract the release zip anywhere and run **`Tools\Run-Manager-GUI.bat`**.
-3. First run: point the Manager at your game folder, UE 5.6 and retoc.
-4. **New Piece…** → author your mesh/textures in the Unreal project
-   (`Content/RSDWBuilds/<PieceId>/`) → **Build All & Install**.
-5. Full game restart → your piece is in the vanilla build menu, with snapping,
-   stability, and build costs (`cost = wood:4` in `piece.ini`).
+---
 
-Full guides live in [`Docs/`](Docs) — start with `MODDER_GUIDE.md` (creators)
-and `PLAYER_INSTALL.md` (players installing a finished pak).
+## Modder quick start
 
-## Repo layout
+1. **First time:** double-click **`Tools\Run-Manager-GUI.bat`** → complete the setup wizard (game path, UE path, retoc).
+2. Open **`RSDWCustomBuilds.uproject`** in Unreal **5.6**.
+3. Create a piece folder:
 
-| Path | What |
-|---|---|
-| `Tools/` | Build pipeline (PowerShell + UE Python) and the Manager GUI |
-| `Source/Dominion/` | Editor-only C++ stubs of the game's piece-data classes |
-| `RSDWBlankMenu/` | The UE4SS Lua runtime mod (menu unlock + piece journal) |
-| `Content/RSDWBuilds/` | Example piece (SpikeWall) + your authored pieces |
-| `Config/`, `Templates/`, `Docs/` | UE project config, piece templates, guides |
+   ```
+   Tools\New-Piece.bat StoneWall
+   ```
 
-## Changelog
+   Or with a custom name / donor: `Tools\New-Piece.bat LumbridgeCastle "Lumbridge Castle" prop`
 
-See [`Docs/CHANGELOG.md`](Docs/CHANGELOG.md).
+4. Save mesh + material instances in UE, then run:
+
+   ```
+   Tools\Build-Piece.bat MyPieceName
+   ```
+
+5. Launch the game → **Build mode (F7)** → place your piece → **save world** → reload to confirm persistence.
+
+---
+
+## Piece folder convention
+
+```
+Content/RSDWBuilds/MyPieceName/
+  piece.ini              ← display name, donor type (required)
+  SM_MyPieceName         ← static mesh (required)
+  T_Icon_MyPieceName     ← build menu icon (optional)
+  MI_MyPieceName_Stone   ← material instance on mesh slot 0 (recommended)
+  MI_MyPieceName_Roof    ← slot 1 …
+  T_Stone, T_Stone_N     ← textures referenced by MIs
+```
+
+**Textures are baked on the mesh in UE** (Material Instances). No runtime Lua texture hacks.
+
+---
+
+## Tooling overview
+
+| Script | Purpose |
+|--------|---------|
+| `Setup.bat` | Create `mod.config.ini` from template |
+| `Build-Manager-Exe.bat` | Publish the Windows GUI manager EXE |
+| `Run-Manager-GUI.bat` | Launch the GUI manager |
+| `Manager.bat check` | Validate game, UE4SS, Unreal, retoc, UAssetGUI |
+| `Manager.bat build-from-files <Folder>` | Import raw `piece.json` + model/textures, cook, pack, deploy |
+| `Manager.bat install-pack <Folder>` | Install a prebuilt Nexus pack with backup |
+| `Manager.bat rollback` | Restore the last install backup |
+| `Build-Piece.bat <Name>` | Validate → cook → generate DA → pack → deploy |
+| `Build-All.bat` | Build every folder under `Content/RSDWBuilds/` |
+| `rsdw-builds.ps1` | PowerShell CLI (same commands) |
+
+The GUI manager is a wrapper over the same PowerShell pipeline, so the CLI remains the source of truth.
+
+UAssetGUI is invoked automatically by the build script (same CLI as `RSDWArchive/tools/rsdw-asset.ps1`).
+
+---
+
+## Docs
+
+- [`Docs/MODDER_GUIDE.md`](Docs/MODDER_GUIDE.md) — full UE → game workflow
+- [`Docs/NEXUS_MANAGER.md`](Docs/NEXUS_MANAGER.md) — player/creator manager commands
+- [`Docs/PIECE_JSON.md`](Docs/PIECE_JSON.md) — raw model/texture folder format
+- [`Docs/NAMING.md`](Docs/NAMING.md) — file names, donors, materials
+- [`Docs/PLAYER_INSTALL.md`](Docs/PLAYER_INSTALL.md) — Nexus player instructions
+
+---
+
+## Requirements
+
+- RuneScape: Dragonwilds (Steam)
+- [UE4SS](https://github.com/UE4SS-RE/RE-UE4SS) installed in game `Binaries/Win64/`
+- Modder: Unreal Engine **5.6**, [retoc](https://github.com/trumank/retoc), [UAssetGUI](https://github.com/atenfyr/UAssetGUI) (or RSDW fork)
+
+---
 
 ## License / attribution
 
-See [LICENSE](LICENSE). Game assets remain Jagex property; this kit generates
-and ships only your own content plus generated metadata.
+Game assets remain Jagex property. For personal installs you own only.
