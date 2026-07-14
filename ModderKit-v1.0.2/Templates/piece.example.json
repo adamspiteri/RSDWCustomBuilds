@@ -1,0 +1,28 @@
+{
+  "id": "MyStoneWall",
+  "displayName": "My Stone Wall",
+  "donor": "foundation_large",
+  "menuCategory": "foundations",
+  "autoCatalogueIndex": true,
+  "persistenceId": "auto",
+  "costWood": 0,
+  "scale": 1.0,
+  "collision": "auto_box",
+  "materialMode": "custom",
+  "model": "model.fbx",
+  "textures": {
+    "baseColor": "textures/basecolor.png",
+    "normal": "textures/normal.png",
+    "roughness": "textures/roughness.png",
+    "icon": "textures/icon.png"
+  },
+  "materials": [
+    {
+      "slot": 0,
+      "name": "Wall",
+      "baseColor": "textures/basecolor.png",
+      "normal": "textures/normal.png",
+      "roughness": "textures/roughness.png"
+    }
+  ]
+}

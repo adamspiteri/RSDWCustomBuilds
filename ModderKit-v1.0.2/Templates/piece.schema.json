@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RSDW Custom Builds piece.json",
+  "type": "object",
+  "required": ["id", "displayName", "model"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9]*$",
+      "description": "PascalCase piece id. Also becomes folder name and asset suffix."
+    },
+    "displayName": { "type": "string" },
+    "donor": {
+      "type": "string",
+      "enum": ["foundation_large", "foundation_med", "wall_large", "floor_large", "prop"],
+      "default": "foundation_large"
+    },
+    "menuCategory": { "type": "string", "default": "foundations" },
+    "catalogueIndex": { "type": ["integer", "null"], "minimum": 651 },
+    "autoCatalogueIndex": { "type": "boolean", "default": true },
+    "persistenceId": { "type": "string", "default": "auto" },
+    "costWood": { "type": "integer", "minimum": 0, "default": 0 },
+    "scale": { "type": "number", "exclusiveMinimum": 0, "default": 1.0 },
+    "collision": {
+      "type": "string",
+      "enum": ["auto_box", "complex_as_simple", "none"],
+      "default": "auto_box"
+    },
+    "materialMode": {
+      "type": "string",
+      "enum": ["custom", "vanilla"],
+      "default": "custom"
+    },
+    "model": { "type": "string", "description": "Relative path to FBX or OBJ." },
+    "textures": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "baseColor": { "type": "string" },
+        "normal": { "type": "string" },
+        "roughness": { "type": "string" },
+        "icon": { "type": "string" }
+      }
+    },
+    "materials": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["slot", "name"],
+        "additionalProperties": false,
+        "properties": {
+          "slot": { "type": "integer", "minimum": 0 },
+          "name": { "type": "string" },
+          "baseColor": { "type": "string" },
+          "normal": { "type": "string" },
+          "roughness": { "type": "string" }
+        }
+      }
+    }
+  }
+}
